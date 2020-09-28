@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模板字符串支持嵌套</title>
+    <link rel="stylesheet" type="text/css" href="/css/base.css">
+</head>
+<body>
+    
+    <script>
+        const nameList = ['前端客栈','冷鲜生','你好呀'];
+        function myTemplate(){
+            return `<a href="/src/javascript/javascript.html">返回上一级</a><br/>
+            <ul>
+                ${nameList
+                .map((item)=>`<li>${item}</li>`)
+                .join('')}
+            </ul>`;
+        }
+        document.body.innerHTML = myTemplate();
+    </script>
+</body>
+</html>
