@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组扁平化</title>
+</head>
+<body>
+    <script>
+        const arr = [1,[2,[3,[4,5]]],6]
+        // 数组扁平化是指将一个多维数组变为一个一维数组
+        // 方法1：使用flat()
+        const res1 = arr.flat(Infinity);
+        // 方法2：利用正则
+        const res2 = JSON.stringify(arr).replace(/\[|\]/g,'').slice(',');
+        // 方法3：正则改良版
+        const res3 = JSON.parse('['+JSON.stringify(arr).replace(/\[|\]/g,'')+']');
+        // 方法4：使用reduce
+        const flatten = arr=>{
+            return arr.reduce((pre,cur)=>{
+                return pre.concat(Array.isArray(cur)? flatten(cur):cur);
+            },[])
+        }
+        const res4 = flatten(arr);
+        // 函数递归1
+        const fn = arr => {
+            var res5 = [];
+            arr.map(item => {
+                if(Array.isArray(item)) {
+                    res5 = res5.concat(fn(item));
+                } else {
+                    res5.push(item);
+                }
+            });
+            return res5;
+        }
+        // 函数递归2
+        function fn3(arr) {
+        const res6 = []
+        function fn2(x) {
+            if (Array.isArray(x)) {
+            for (let i = 0, len = x.length; i < len; i++) fn2(x[i])
+            } else {
+            res6.push(x)
+            }
+        }
+        fn2(arr);
+        return res6;
+        }
+        // 函数递归3         //多加关注
+        
+        const fn4 = arr => {
+            const res7 = [];
+            for (let i = 0; i < arr.length; i++) {
+                if (Array.isArray(arr[i])) {
+                res7.push.apply(res7,fn4(arr[i]));
+                } else {
+                res7.push(arr[i]);
+                }
+            }
+            return res7;
+        }
+        // 原代码有误
+        // const res5 = [];
+        // const fn = arr => {
+        // for (let i = 0; i < arr.length; i++) {
+        //     if (Array.isArray(arr[i])) {
+        //     fn(arr[i]);
+        //     } else {
+        //     res5.push(arr[i]);
+        //     }
+        // }
+        // }
+        // fn(arr);
+        console.log(fn4(arr));
+    </script>
+</body>
+</html>
